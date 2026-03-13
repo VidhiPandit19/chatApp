@@ -1,0 +1,84 @@
+.sidebar {
+  width: 260px;
+  background-color: #1e293b;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar-title {
+  margin-bottom: 20px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: 0.2s;
+}
+
+.friend-item:hover {
+  background-color: #334155;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.username-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.username {
+  font-size: 12px;          /* smaller size */
+  font-weight: 600;         /* semi-bold */
+  letter-spacing: 0.5px;    /* cleaner spacing */
+  color: #e2e8f0;           /* soft white */
+  max-width: 10px;         /* prevent overflow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  /* show ... if too long */
+}
+
+.current-user {
+   display: flex; 
+   align-items: center; 
+  gap: 12px;   /* 👈 add this */
+  margin-bottom: 15px; */
+}
+
+.green-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 4px #22c55e;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 12px #22c55e;
+    transform: scale(1.1);
+  }
+  100% {
+    box-shadow: 0 0 4px #22c55e;
+    transform: scale(1);
+  }
+}

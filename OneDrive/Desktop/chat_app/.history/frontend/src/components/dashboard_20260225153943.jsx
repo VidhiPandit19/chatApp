@@ -1,0 +1,101 @@
+import { useEffect, useState } from "react";
+import API from "../api";
+import { useNavigate } from "react-router-dom";
+
+function Dashboard() {
+  const [user, setUser] = useState(null);
+  const [friends, setFriends] = useState([]);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profileRes = await API.get("/user/profile");
+        setUser(profileRes.data.user);
+
+        const friendsRes = await API.get("/friends");
+        setFriends(friendsRes.data.friends);
+      } catch (err) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  if (!user) return <div>Loading...</div>;
+
+  return (
+    <div style={styles.container}>
+      {/* ================= SIDEBAR ================= */}
+      <div style={styles.sidebar}>
+        <div style={styles.header}>
+          <h3>{user.name}</h3>
+          <button onClick={handleLogout} style={styles.logout}>
+            Logout
+          </button>
+        </div>
+
+        <h4 style={{ marginTop: "20px" }}>Friends</h4>
+
+        {friends.length === 0 ? (
+          <p style={{ color: "gray" }}>No friends yet</p>
+        ) : (
+          friends.map((friend) => (
+            <div
+              key={friend.id}
+              style={{
+                ...styles.friendItem,
+                backgroundColor:
+                  selectedFriend?.id === friend.id
+                    ? "#2563EB"
+                    : "#1F2937",
+              }}
+              onClick={() => setSelectedFriend(friend)}
+            >
+              {friend.name}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* ================= CHAT AREA ================= */}
+      <div style={styles.chatArea}>
+        {selectedFriend ? (
+          <>
+            <div style={styles.chatHeader}>
+               {selectedFriend.name}
+            </div>
+
+            <div style={styles.messagesArea}>
+              {/* Messages will come here later */}
+            </div>
+
+            <div style={styles.inputArea}>
+              <input
+                type="text"
+                placeholder="Type a message..."
+                style={styles.messageInput}
+              />
+              <button style={styles.sendButton}>
+                Send
+              </button>
+            </div>
+          </>
+        ) : (
+          <h4>Messages will appear here.. 💬</h4>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+export default Dashboard;

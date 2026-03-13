@@ -1,0 +1,101 @@
+import { useEffect, useState } from "react";
+import API from "../api";
+import socket from "../socket";
+import Sidebar from "../components/Sidebar";
+import MessageBubble from "../components/MessageBubble";
+import MessageInput from "../components/MessageInput";
+import "./chat.css";
+import { useRef } from "react";
+
+export default function Chat() {
+  const [friends, setFriends] = useState([]);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
+  const firstLoadRef = useRef(true);
+
+  const userId = JSON.parse(
+    atob(localStorage.getItem("token").split(".")[1])
+  ).id;
+
+  useEffect(() => {
+    socket.emit("register", userId);
+    fetchFriends();
+  }, []);
+
+ 
+  useEffect(() => {
+  if (!messagesEndRef.current) return;
+
+  if (firstLoadRef.current) {
+    // instant scroll when opening chat
+    messagesEndRef.current.scrollIntoView({ behavior: "auto" });
+    firstLoadRef.current = false;
+  } else {
+    // smooth scroll for new messages
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+}, [messages]);
+
+  useEffect(() => {
+    socket.on("receiveMessage", (data) => {
+      setMessages((prev) => [
+        ...prev,
+        { ...data, id: Date.now() } 
+
+      ]);
+    });
+  }, []);
+
+  const fetchFriends = async () => {
+    const res = await API.get("/friends");
+    setFriends(res.data.friends);
+  };
+
+  // 🔥 UPDATED HERE
+  const loadConversation = async (friend) => {
+    firstLoadRef.current = true;
+    setSelectedFriend(friend);   // store full friend object
+
+    const res = await API.get(`/messages/${friend.id}`);
+    setMessages(res.data.messages);
+  };
+
+  return (
+    <div className="chat-container">
+      <Sidebar friends={friends} selectFriend={loadConversation} selectedFriend={selectedFriend} />
+
+      <div className="chat-main">
+        {selectedFriend ? (
+          <>
+            {/* 🔥 CHAT HEADER */}
+            <div className="chat-header">
+              <div className="chat-header-avatar">
+                {selectedFriend.name.charAt(0).toUpperCase()}
+              </div>
+              <span className="chat-header-name">
+                {selectedFriend.name}
+              </span>
+            </div>
+
+            <div className="chat-messages">
+              {messages.map((msg) => (
+                <MessageBubble key={msg.id} msg={msg} userId={userId} />
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <MessageInput
+              receiver_Id={selectedFriend.id}  // use id here
+              addMessage={setMessages}
+            />
+          </>
+        ) : (
+          <div className="no-chat">
+            Select a friend to start chatting
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

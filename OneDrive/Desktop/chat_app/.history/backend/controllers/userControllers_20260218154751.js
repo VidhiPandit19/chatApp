@@ -1,0 +1,11 @@
+const { User } = require("../models");
+
+const addUser = async(req, res) => {
+    try{
+        const { name, email, password, pass } = req.body
+
+        if( !name || !email || !password !confirmPassword) {
+            return res.status(404).json({message: "All feilds are required "});
+        }
+        elseif ()
+  

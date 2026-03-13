@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Test</title>
+</head>
+<body>
+
+<h2>Socket Test</h2>
+
+<input id="userId" placeholder="Enter your user ID" />
+<button onclick="registerUser()">Register</button>
+
+<br><br>
+
+<input id="message" placeholder="Type message" />
+<input id="receiverId" placeholder="Receiver ID" />
+<button onclick="sendMessage()">Send</button>
+
+<ul id="messages"></ul>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+<script>
+  const socket = io("http://localhost:5000");
+
+  function registerUser() {
+    const userId = document.getElementById("userId").value;
+    socket.emit("register", userId);
+    alert("Registered as User " + userId);
+  }
+
+  function sendMessage() {
+    const message = document.getElementById("message").value;
+    const receiverId = document.getElementById("receiverId").value;
+
+    socket.emit("privateMessage", {
+      sender: document.getElementById("userId").value,
+      receiver: receiverId,
+      text: message
+    });
+  }
+
+  socket.on("receiveMessage", (data) => {
+    const li = document.createElement("li");
+    li.innerText = data.sender_Id + ": " + data.text;
+    document.getElementById("messages").appendChild(li);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+require('dotenv').config();
+
+const express = require('express');
+const { db, connectDB } = require('./config/db');
+
+const app = express();
+
+const PORT = process.env.PORT || 5000;
+
+app.use(express.json());
+
+const userRoutes = require('./routes/userRoutes');
+app.use('/user', userRoutes);
+
+// Connect Database
+connectDB();
+
+require('./models');
+
+const requestRoutes = require("./routes/requestRoutes")
+
+//connect tables whether created or not
+db.sync()
+   .then(() => console.log("Tables synced"))
+   .catch(err => console.log(err));
+
+
+app.listen(PORT, () => {
+    console.log("Server running on Port " + PORT);
+});

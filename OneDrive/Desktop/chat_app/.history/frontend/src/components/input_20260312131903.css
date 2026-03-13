@@ -1,0 +1,69 @@
+
+/* MESSAGE INPUT AREA */
+
+.message-input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background-color: #202c33;
+  border-top: 1px solid #2a3942;
+  gap: 10px;
+}
+
+/* TEXTAREA */
+
+.message-input-container textarea {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  resize: none;
+  min-height: 20px;
+  max-height: 90px;
+  overflow-y: auto;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 14px;
+  background-color: #2a3942;
+  color: #e9edef;
+}
+
+/* PLACEHOLDER */
+
+.message-input-container textarea::placeholder {
+  color: #8696a0;
+}
+
+/* SEND BUTTON */
+
+.message-input-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00a884;
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+
+/* HOVER EFFECT */
+
+.message-input-container button:hover {
+  background-color: #02c39a;
+}
+
+/* SCROLLBAR */
+
+.message-input-container textarea::-webkit-scrollbar {
+  width: 5px;
+}
+
+.message-input-container textarea::-webkit-scrollbar-thumb {
+  background: #2a3942;
+  border-radius: 10px;
+}
+
