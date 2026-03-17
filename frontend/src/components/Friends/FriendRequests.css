@@ -1,0 +1,21 @@
+.requests-modal { max-width: 440px; width: 90%; padding: 0; overflow: hidden; }
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+}
+.modal-header h2 { font-size: 17px; font-weight: 700; }
+.modal-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+}
+.requests-list { max-height: 400px; overflow-y: auto; padding: 8px 0; }
+.requests-empty { text-align: center; padding: 32px; color: var(--text-muted); font-size: 14px; }
+.request-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px; gap: 12px; transition: background 0.15s;
+}
+.request-item:hover { background: rgba(255,255,255,0.04); }
+.request-user { display: flex; align-items: center; gap: 10px; }
+.request-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.request-username { font-size: 12px; color: var(--text-muted); }
+.request-actions { display: flex; gap: 8px; flex-shrink: 0; }

@@ -1,0 +1,56 @@
+.message-input-area {
+  background: rgba(255,255,255,0.04);
+  border-top: 1px solid var(--border);
+  padding: 10px 14px;
+  backdrop-filter: blur(10px);
+}
+.reply-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; margin-bottom: 8px;
+  background: var(--bg-tertiary); border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
+}
+.edit-bar { border-left-color: var(--blue); }
+.reply-bar-content { flex: 1; min-width: 0; }
+.reply-bar-name { display: block; font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+.reply-bar-text { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.edit-bar .reply-bar-name { color: var(--blue); }
+
+.file-preview-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; margin-bottom: 8px;
+  background: var(--bg-tertiary); border-radius: var(--radius-sm);
+}
+.file-preview-img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
+.file-preview-name { flex: 1; font-size: 13px; color: var(--text-secondary); }
+
+.input-row { display: flex; align-items: flex-end; gap: 8px; }
+.attach-btn { flex-shrink: 0; color: var(--text-secondary); }
+.attach-btn:hover { color: var(--accent); }
+
+.message-textarea {
+  flex: 1; padding: 10px 14px;
+  background: rgba(255,255,255,0.04); border: 1.5px solid var(--border);
+  border-radius: 22px; color: var(--text-primary);
+  font-family: inherit; font-size: 14px; outline: none;
+  transition: border-color 0.2s; resize: none;
+  min-height: 42px; max-height: 120px; overflow-y: auto;
+  line-height: 1.5;
+}
+.message-textarea:focus { border-color: var(--accent); }
+.message-textarea::placeholder { color: var(--text-muted); }
+
+.send-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: none; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  background: rgba(255,255,255,0.08); color: var(--text-muted);
+  transition: all 0.2s;
+}
+.send-btn.active {
+  background: linear-gradient(135deg, var(--accent) 0%, #45efc0 100%);
+  color: var(--text-invert);
+  box-shadow: 0 10px 20px rgba(43,212,165,0.35);
+  transform: scale(1.05);
+}
+.send-btn:disabled { cursor: not-allowed; transform: none !important; }

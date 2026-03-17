@@ -1,0 +1,257 @@
+.group-info-modal {
+  width: min(700px, 96vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-info-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(26, 35, 51, 0.94), rgba(12, 18, 27, 0.96));
+}
+
+.group-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.group-hero-avatar-wrap {
+  position: relative;
+  cursor: default;
+}
+
+.group-hero-avatar-wrap.is-editable {
+  cursor: pointer;
+}
+
+.group-hero-avatar {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.group-hero-avatar-placeholder {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue), #4f7bc7);
+  color: #fff;
+}
+
+.group-hero-avatar-edit {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(0, 0, 0, 0.75);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.group-hero-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-hero-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.group-hero-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.group-form-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.group-admin-row {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .group-admin-row {
+    display: block;
+  }
+}
+
+.group-add-panel {
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(6, 10, 16, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-add-list {
+  max-height: 190px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 2px;
+}
+
+.group-add-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.group-members-title {
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.group-members-info-list {
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(6, 10, 16, 0.7);
+  min-height: 320px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.group-member-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 10px;
+}
+
+.group-member-row:last-child {
+  margin-bottom: 0;
+}
+
+.group-member-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.group-member-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-member-fullname {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.group-member-username {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.group-member-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 8px;
+  position: relative;
+}
+
+.member-menu-wrap {
+  position: relative;
+}
+
+.member-menu-trigger {
+  width: 30px;
+  height: 30px;
+}
+
+.member-menu-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: rgba(12, 18, 27, 0.96);
+  box-shadow: var(--shadow-soft);
+  z-index: 5;
+}
+
+.member-menu-popover .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.member-chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.member-chip.admin {
+  color: var(--text-invert);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.group-empty-row {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 14px;
+}
+
+.group-inline-msg {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.group-info-footer {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 16px 16px;
+}
