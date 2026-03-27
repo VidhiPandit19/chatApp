@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
 // @route GET /api/auth/me
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id, {
+    const user = await User   .findByPk(req.user.id, {
       attributes: { exclude: ['password'] },
     });
     res.json({ user });

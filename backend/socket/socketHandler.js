@@ -108,7 +108,8 @@ module.exports = (io) => {
 
     // ─── MESSAGING ────────────────────────────────────────────
     socket.on('message:send', async (data) => {
-      const { conversationId, content, type = 'text', fileUrl, fileName, replyToId } = data;
+      const { conversationId, content, type = 'text', fileUrl, fileName, replyToId, isForwarded = false } = data;
+      const normalizedIsForwarded = Boolean(isForwarded);
       try {
         const groupMembership = await GroupMember.findOne({
           where: { groupId: conversationId, userId },
@@ -127,6 +128,7 @@ module.exports = (io) => {
             fileUrl,
             fileName,
             replyToId: replyToId || null,
+            isForwarded: normalizedIsForwarded,
           });
 
           await group.update({ lastMessageId: message.id });
@@ -190,6 +192,7 @@ module.exports = (io) => {
           fileUrl,
           fileName,
           replyToId: replyToId || null,
+          isForwarded: normalizedIsForwarded,
         });
 
         const otherUserId = conv.user1Id === userId ? conv.user2Id : conv.user1Id;

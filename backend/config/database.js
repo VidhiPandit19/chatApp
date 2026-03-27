@@ -56,6 +56,15 @@ const connectDB = async () => {
       console.log('⚠️ Updated Messages.conversationId to allow NULL');
     }
 
+    if (!messagesTable.isForwarded) {
+      await queryInterface.addColumn('Messages', 'isForwarded', {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      });
+      console.log('⚠️ Added missing Messages.isForwarded column');
+    }
+
     const [typeColumnRows] = await sequelize.query("SHOW COLUMNS FROM Messages LIKE 'type'");
     const messageTypeColumn = Array.isArray(typeColumnRows) && typeColumnRows.length > 0 ? typeColumnRows[0] : null;
     const enumSpec = String(messageTypeColumn?.Type || '').toLowerCase();

@@ -20,10 +20,11 @@ const MessageBubble = ({
 }) => {
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const { content, type, fileUrl, fileName, isEdited, deletedForEveryone,
-    replyTo, status, createdAt } = message;
+    replyTo, status, createdAt, isForwarded } = message;
   const normalizedType = String(type || '').toLowerCase();
   const isTextLikeType = !normalizedType || normalizedType === 'text';
-  const canForward = isTextLikeType && !deletedForEveryone;
+  const isForwardableFileType = (normalizedType === 'image' || normalizedType === 'file') && Boolean(fileUrl);
+  const canForward = (isTextLikeType || isForwardableFileType) && !deletedForEveryone;
   const imageSrc = fileUrl ? `http://localhost:5000${fileUrl}` : '';
   const normalizedContent = String(content || '').toLowerCase();
   const isLegacyGroupSystemText =
@@ -53,6 +54,9 @@ const MessageBubble = ({
 
     return content || 'Call update';
   })();
+  const senderName = message?.sender?.fullName || message?.sender?.username || 'User';
+  const senderInitial = senderName[0]?.toUpperCase() || 'U';
+  const senderAvatarUrl = message?.sender?.avatar ? `http://localhost:5000${message.sender.avatar}` : null;
 
   if (normalizedType === 'system' || isLegacyGroupSystemText) {
     return (
@@ -84,6 +88,15 @@ const MessageBubble = ({
   if (deletedForEveryone) {
     return (
       <div className={`message-row ${isMine ? 'mine' : 'theirs'}`}>
+        {!isMine && (
+          <div className="message-avatar-wrap" aria-hidden="true">
+            {senderAvatarUrl ? (
+              <img src={senderAvatarUrl} alt={senderName} className="message-avatar" />
+            ) : (
+              <div className="message-avatar-fallback">{senderInitial}</div>
+            )}
+          </div>
+        )}
         <div className="message-content">
           <div className="message-bubble deleted-bubble">
             <span>This message was deleted</span>
@@ -104,10 +117,24 @@ const MessageBubble = ({
         </button>
       )}
 
+      {!isMine && (
+        <div className="message-avatar-wrap" aria-hidden="true">
+          {senderAvatarUrl ? (
+            <img src={senderAvatarUrl} alt={senderName} className="message-avatar" />
+          ) : (
+            <div className="message-avatar-fallback">{senderInitial}</div>
+          )}
+        </div>
+      )}
+
       <div className="message-content">
         <div className={`message-bubble ${isMine ? 'sent' : 'received'} ${normalizedType === 'image' ? 'image' : ''}`}>
           {showSenderName && !isMine && message?.sender?.fullName && (
             <div className="group-sender-name">{message.sender.fullName}</div>
+          )}
+
+          {isForwarded && (
+            <div className="forwarded-label">Forwarded</div>
           )}
 
           {/* Reply preview */}

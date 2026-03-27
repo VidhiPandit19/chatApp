@@ -189,20 +189,41 @@ const ChatWindow = ({ onBack }) => {
     return groups;
   };
 
+  const isMessageForwardable = (msg) => {
+    if (!msg || msg.deletedForEveryone) return false;
+    const normalizedType = String(msg.type || '').toLowerCase();
+    const isTextLike = !normalizedType || normalizedType === 'text';
+    const isFileLike = (normalizedType === 'image' || normalizedType === 'file') && Boolean(msg.fileUrl);
+    return isTextLike || isFileLike;
+  };
+
   const handleForward = (msg) => {
-    if (!msg || msg.deletedForEveryone || msg.type !== 'text' || !msg.content) return;
+    if (!isMessageForwardable(msg)) return;
     setForwardingMessage(msg);
     if (selectionMode) clearSelection();
   };
 
   const handleForwardTo = (targetConv) => {
     if (!forwardingMessage || !targetConv?.id) return;
-    const socket = getSocket();
-    socket?.emit('message:send', {
+    const normalizedType = String(forwardingMessage.type || '').toLowerCase();
+    const isTextLike = !normalizedType || normalizedType === 'text';
+
+    const payload = {
       conversationId: targetConv.id,
-      content: forwardingMessage.content,
-      type: 'text',
-    });
+      type: isTextLike ? 'text' : normalizedType,
+      isForwarded: true,
+    };
+
+    if (isTextLike) {
+      payload.content = forwardingMessage.content || '';
+    } else {
+      payload.content = forwardingMessage.content || null;
+      payload.fileUrl = forwardingMessage.fileUrl;
+      payload.fileName = forwardingMessage.fileName || null;
+    }
+
+    const socket = getSocket();
+    socket?.emit('message:send', payload);
     setForwardingMessage(null);
   };
 
@@ -390,8 +411,8 @@ const ChatWindow = ({ onBack }) => {
               </svg>Select
             </div>
           )}
-          <div className={`context-menu-item ${contextMenu.msg.type !== 'text' || contextMenu.msg.deletedForEveryone ? 'disabled' : ''}`} onClick={() => {
-            if (contextMenu.msg.type !== 'text' || contextMenu.msg.deletedForEveryone) return;
+          <div className={`context-menu-item ${!isMessageForwardable(contextMenu.msg) ? 'disabled' : ''}`} onClick={() => {
+            if (!isMessageForwardable(contextMenu.msg)) return;
             handleForward(contextMenu.msg);
             setContextMenu(null);
           }}>

@@ -183,7 +183,8 @@ exports.getMessages = async (req, res) => {
 exports.sendMessage = async (req, res) => {
   try {
     const { conversationId } = req.params;
-    const { content, replyToId } = req.body;
+    const { content, replyToId, isForwarded } = req.body;
+    const normalizedIsForwarded = isForwarded === true || isForwarded === 'true';
     const conv = await verifyConversationAccess(conversationId, req.user.id);
     if (!conv) return res.status(403).json({ message: 'Access denied' });
 
@@ -207,6 +208,7 @@ exports.sendMessage = async (req, res) => {
       fileUrl,
       fileName,
       replyToId: replyToId || null,
+      isForwarded: normalizedIsForwarded,
     });
 
     // Update conversation: last message + unread count

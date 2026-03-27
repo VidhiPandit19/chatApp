@@ -225,7 +225,8 @@ exports.getGroupMessages = async (req, res) => {
 exports.sendGroupMessage = async (req, res) => {
   try {
     const { groupId } = req.params;
-    const { content, replyToId } = req.body;
+    const { content, replyToId, isForwarded } = req.body;
+    const normalizedIsForwarded = isForwarded === true || isForwarded === 'true';
 
     const membership = await ensureMembership(groupId, req.user.id);
     if (!membership) return res.status(403).json({ message: 'Access denied' });
@@ -253,6 +254,7 @@ exports.sendGroupMessage = async (req, res) => {
       fileUrl,
       fileName,
       replyToId: replyToId || null,
+      isForwarded: normalizedIsForwarded,
     });
 
     await Group.update({ lastMessageId: message.id }, { where: { id: groupId } });

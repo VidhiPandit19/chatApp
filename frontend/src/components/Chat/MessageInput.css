@@ -5,15 +5,15 @@
   backdrop-filter: blur(10px);
 }
 .reply-bar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; margin-bottom: 7px;
   background: var(--bg-tertiary); border-radius: var(--radius-sm);
-  border-left: 3px solid var(--accent);
+  border-left: 2px solid var(--accent);
 }
 .edit-bar { border-left-color: var(--blue); }
 .reply-bar-content { flex: 1; min-width: 0; }
-.reply-bar-name { display: block; font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
-.reply-bar-text { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.reply-bar-name { display: block; font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 1px; line-height: 1.2; }
+.reply-bar-text { font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; line-height: 1.2; }
 .edit-bar .reply-bar-name { color: var(--blue); }
 
 .file-preview-bar {

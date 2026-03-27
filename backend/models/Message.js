@@ -41,6 +41,10 @@ const Message = sequelize.define('Message', {
     references: { model: 'Messages', key: 'id' },
     onDelete: 'SET NULL',
   },
+  isForwarded: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
   isEdited: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,

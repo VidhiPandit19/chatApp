@@ -33,16 +33,17 @@ export const ChatProvider = ({ children }) => {
       const updated = prev.map((c) => {
         if (c.id !== conversationId) return c;
         const isActive = activeConversation?.id === conversationId;
+        const isIncomingFromOtherUser = Boolean(user?.id && message?.senderId && message.senderId !== user.id);
         return {
           ...c,
           lastMessage: message,
-          unreadCount: isActive ? 0 : (c.unreadCount || 0) + 1,
+          unreadCount: isActive ? 0 : (isIncomingFromOtherUser ? (c.unreadCount || 0) + 1 : (c.unreadCount || 0)),
           updatedAt: new Date().toISOString(),
         };
       });
       return updated.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     });
-  }, [activeConversation]);
+  }, [activeConversation, user?.id]);
 
   // Load conversations
   const loadConversations = useCallback(async () => {
